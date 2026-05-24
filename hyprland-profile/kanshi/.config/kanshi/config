@@ -1,0 +1,12 @@
+profile mobile {
+    output eDP-1 enable scale 1.25
+}
+
+profile docked {
+    output eDP-1 disable
+    output "Philips Consumer Electronics Company PHL 325E1 0x00001A8B" {
+        mode 2560x1440@74.97Hz
+        position 0,0
+        scale 1.0
+    }
+}

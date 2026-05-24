@@ -1,0 +1,8 @@
+font-family = "JetBrains Mono"
+font-size = 11
+cursor-style = block
+shell-integration = fish
+window-padding-y = 20
+window-padding-x = 20
+theme = washi-light
+theme = light:washi-light,dark:sumi-dark

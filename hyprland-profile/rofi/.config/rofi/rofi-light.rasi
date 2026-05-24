@@ -1,0 +1,6 @@
+* {
+    bg: #F5F2E9;         
+    fg: #2C2826;         
+    fg-dim: #8B8682;     
+    border-col: #E0DCD3; 
+}

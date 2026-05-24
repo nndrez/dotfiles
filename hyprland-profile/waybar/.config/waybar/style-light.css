@@ -1,0 +1,69 @@
+@define-color bg #F5F2E9;
+@define-color fg #2C2826;
+@define-color fg-dim #8B8682;
+@define-color border-col #E0DCD3;
+
+* {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+window#waybar {
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 1px solid @border-col;
+}
+
+#clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media, #power-profiles-deamon {
+    padding: 0 10px;
+    background-color: transparent; 
+    color: @fg; 
+}
+
+#workspaces button {
+    padding: 0 8px;
+    background-color: transparent;
+    color: @fg-dim;
+    border: none;
+    box-shadow: none;
+    transition: color 0.2s ease;
+}
+
+#workspaces button:hover {
+    color: #5A5652; 
+    background: transparent;
+}
+
+#workspaces button.active {
+    color: @fg; 
+    font-weight: bold; 
+}
+
+#pulseaudio.muted {
+    color: @fg-dim; 
+    text-decoration: line-through; 
+}
+
+#network.disconnected {
+    color: @fg-dim; 
+    font-style: italic; 
+}
+
+#battery.charging, #battery.plugged {
+    color: @fg; 
+}
+
+#battery.critical:not(.charging) {
+    color: @bg; 
+    background-color: @fg; 
+    border-radius: 0px; 
+    padding: 0 8px;
+    margin: 4px 4px; 
+    font-weight: bold;
+}
+
+#window {
+    color: @fg; 
+    font-weight: bold;
+}

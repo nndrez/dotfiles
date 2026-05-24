@@ -1,0 +1,132 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 10,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "cpu",
+        "memory"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "network",
+	    "bluetooth",
+        "pulseaudio",
+	    "power-profiles-daemon",
+        "backlight",
+        "battery",
+        "clock",
+        "custom/power"
+    ],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false,
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "*" : [1, 2, 3, 4, 5]
+        },
+        "show-special": false,
+        "format-icons": {
+            "1" : "一",
+            "2" : "二",
+            "3" : "三",
+            "4" : "四",
+            "5" : "五"
+        }
+    },
+
+    "cpu": {
+        "format": "CPU {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+        "format": "RAM {}%"
+    },
+
+    "hyprland/window": {
+        "format": "[ {title} ]",
+        "separate-outputs": true
+    },
+    
+    "network": {
+        "format-wifi": "NET {signalStrength}%",
+        "format-ethernet": "ETH UP",
+        "format-linked": "ETH NO IP",
+        "format-disconnected": "NET DOWN",
+        "tooltip-format": "{essid} via {gwaddr}",
+        "format-alt": "IP {ipaddr}",
+        "on-click-right": "ghostty --class=network-popup -e nmtui"
+    },
+
+    "bluetooth": {
+        "format": "BT {status}",
+        "format-connected": "BT {device_alias}",
+        "format-connected-battery": "BT {device_alias} {device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connessi",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connessi\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager", 
+        "on-click-right": "rfkill toggle bluetooth"
+    },
+
+    "pulseaudio": {
+        "format": "VOL {volume}%",
+        "format-bluetooth": "BTV {volume}%",
+        "format-muted": "VOL MUTED",
+        "on-click": "pavucontrol"
+    },
+
+    "power-profiles-daemon": {
+        "format": "PRF {icon}",
+        "tooltip-format": "Profilo: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "BAL",
+            "performance": "PERF",
+            "balanced": "BAL",
+            "power-saver": "SAVE"
+        }
+    },
+
+    "backlight": {
+        "format": "LUM {percent}%"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "PWR {capacity}%",
+        "format-full": "PWR FULL",
+        "format-charging": "CHG {capacity}%",
+        "format-plugged": "AC  {capacity}%"
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%Y-%m-%d}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+
+    "custom/power": {
+        "format" : "[ SYS ]",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "shutdown": "shutdown now",
+            "reboot": "reboot",
+            "suspend": "systemctl suspend"
+        }
+    }
+}

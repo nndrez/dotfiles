@@ -1,0 +1,9 @@
+background-color=#F5F2E9
+text-color=#2C2826
+border-color=#E0DCD3
+border-size=2
+border-radius=0
+font=JetBrains Mono 11
+max-history=5
+sort=-time
+default-timeout=2000
