@@ -78,10 +78,11 @@ Dopo modifiche a config Hyprland: `hyprctl reload` (o logout).
 | Rofi | symlink `current-theme.rasi` → `rofi-{light,dark}.rasi` |
 | Mako | symlink `config` → `config-{light,dark}` |
 | Ghostty | `theme = light:washi-light,dark:sumi-dark` |
-| Wallpaper | `awww clear` (colore pieno) |
+| Wallpaper | `awww img` da `~/Immagini/wallpapers/{light,dark}/` |
 
 Script:
 
+- `hypr/scripts/wallpaper.sh` — wallpaper da cartella (`apply` / `cycle`)
 - `hypr/scripts/init-theme.sh` — applica il tema (autostart + dopo toggle)
 - `hypr/scripts/toggle_theme.sh` — alterna light/dark (`Super+T`)
 
@@ -181,6 +182,7 @@ cd ~/dotfiles && stow -R hyprland-profile
 | `Super+Q` | Terminale (ghostty) |
 | `Super+R` | Launcher (rofi) |
 | `Super+T` | Toggle tema light/dark |
+| `Super+Shift+W` | Cicla wallpaper nel tema corrente |
 | `Super+L` | Blocco schermo (hyprlock) |
 | `Super+Shift+N` | Disattiva filtro hyprsunset |
 | `Super+Ctrl+N` | Ripristina profilo hyprsunset |
@@ -190,5 +192,5 @@ cd ~/dotfiles && stow -R hyprland-profile
 ## Note
 
 - **Kanshi** gestisce profili monitor laptop/dock (`kanshi/config`); `monitors.conf` è il fallback.
-- **Wallpaper:** attualmente colore pieno via `awww` in `init-theme.sh`. Immagini da cartella: da implementare.
+- **Wallpaper:** `~/Immagini/wallpapers/light/` e `~/Immagini/wallpapers/dark/` (jpg, png, webp). Stato in `~/.local/state/wallpaper-{light,dark}`. Cartella vuota → colore pieno di fallback.
 - File generati a runtime (`waybar/style.css`, `mako/config`, `rofi/current-theme.rasi`) non vanno nel repo.

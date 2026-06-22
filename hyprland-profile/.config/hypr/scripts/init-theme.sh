@@ -9,17 +9,16 @@ HYPR_DIR="$HOME/.config/hypr"
 ROFI_DIR="$HOME/.config/rofi"
 MAKO_DIR="$HOME/.config/mako"
 WAYBAR_DIR="$HOME/.config/waybar"
+SCRIPT_DIR="$HYPR_DIR/scripts"
 
 CURRENT_SCHEME=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 if [ "$CURRENT_SCHEME" = "'prefer-light'" ]; then
-    awww clear F8F4E6
     ln -sfn "theme-light.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-light.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-light" "$MAKO_DIR/config"
     ln -sf "style-light.css" "$WAYBAR_DIR/style.css"
 else
-    awww clear 1A1A1D
     ln -sfn "theme-dark.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-dark.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-dark" "$MAKO_DIR/config"
@@ -27,6 +26,8 @@ else
 fi
 
 hyprctl reload
+
+"$SCRIPT_DIR/wallpaper.sh" apply
 
 makoctl reload
 
