@@ -7,6 +7,6 @@ profile docked {
     output "Philips Consumer Electronics Company PHL 325E1 0x00001A8B" {
         mode 2560x1440@74.97Hz
         position 0,0
-        scale 1.0
+        scale 1.25
     }
 }

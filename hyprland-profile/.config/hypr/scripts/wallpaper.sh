@@ -3,6 +3,8 @@
 WALLPAPER_BASE="$HOME/Immagini/wallpapers"
 STATE_DIR="$HOME/.local/state"
 
+AWWW_FADE_DURATION=0.4
+
 mkdir -p "$WALLPAPER_BASE/light" "$WALLPAPER_BASE/dark" "$STATE_DIR"
 
 theme_name() {
@@ -27,6 +29,14 @@ find_wallpapers() {
         2>/dev/null | sort
 }
 
+awww_set() {
+    awww img "$1" \
+        --transition-type fade \
+        --transition-duration "$AWWW_FADE_DURATION" \
+        --transition-fps 60 \
+        --transition-bezier 0.25,0.1,0.25,1
+}
+
 apply() {
     local theme="${1:-$(theme_name)}"
     local state_file="$STATE_DIR/wallpaper-$theme"
@@ -41,7 +51,7 @@ apply() {
     fi
 
     if [ -n "$wallpaper" ]; then
-        awww img "$wallpaper"
+        awww_set "$wallpaper"
         echo "$wallpaper" > "$state_file"
     else
         awww clear "$(fallback_color "$theme")"
@@ -70,7 +80,7 @@ cycle() {
     fi
 
     if [ -n "$next" ]; then
-        awww img "$next"
+        awww_set "$next"
         echo "$next" > "$state_file"
     else
         awww clear "$(fallback_color "$theme")"
