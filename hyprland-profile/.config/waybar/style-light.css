@@ -15,7 +15,7 @@ window#waybar {
     border-bottom: 1px solid @border-col;
 }
 
-#clock, #battery, #cpu, #memory, #disk, #temperature, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media, #power-profiles-daemon {
+#clock, #battery, #cpu, #memory, #disk, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media, #power-profiles-daemon {
     padding: 0 10px;
     background-color: transparent; 
     color: @fg; 
