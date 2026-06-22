@@ -73,7 +73,7 @@ Dopo modifiche a config Hyprland: `hyprctl reload` (o logout).
 
 | Componente | Meccanismo |
 |------------|------------|
-| Hyprland | `hyprctl` bordi finestra |
+| Hyprland | symlink `theme.conf` → `theme-{light,dark}.conf` |
 | Waybar | symlink `style.css` → `style-{light,dark}.css` |
 | Rofi | symlink `current-theme.rasi` → `rofi-{light,dark}.rasi` |
 | Mako | symlink `config` → `config-{light,dark}` |
@@ -85,7 +85,7 @@ Script:
 - `hypr/scripts/init-theme.sh` — applica il tema (autostart + dopo toggle)
 - `hypr/scripts/toggle_theme.sh` — alterna light/dark (`Super+T`)
 
-I symlink runtime (`style.css`, `mako/config`, `current-theme.rasi`) sono creati da `init-theme.sh` e **non** vanno committati.
+I symlink runtime (`theme.conf`, `style.css`, `mako/config`, `current-theme.rasi`) sono creati da `init-theme.sh` e **non** vanno committati (tranne `theme.conf` come default dark nel repo).
 
 ## hyprsunset
 

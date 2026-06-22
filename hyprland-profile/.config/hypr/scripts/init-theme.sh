@@ -2,9 +2,10 @@
 
 if ! pgrep -x "awww-daemon" > /dev/null; then
     awww-daemon &
-    sleep 0.5 
+    sleep 0.5
 fi
 
+HYPR_DIR="$HOME/.config/hypr"
 ROFI_DIR="$HOME/.config/rofi"
 MAKO_DIR="$HOME/.config/mako"
 WAYBAR_DIR="$HOME/.config/waybar"
@@ -12,20 +13,20 @@ WAYBAR_DIR="$HOME/.config/waybar"
 CURRENT_SCHEME=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 if [ "$CURRENT_SCHEME" = "'prefer-light'" ]; then
-    hyprctl --batch "keyword general:col.active_border rgba(2C2826ee) ; keyword general:col.inactive_border rgba(E0DCD3aa)"
     awww clear F8F4E6
-    # LINK RELATIVI PER TEMA LIGHT
+    ln -sfn "theme-light.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-light.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-light" "$MAKO_DIR/config"
     ln -sf "style-light.css" "$WAYBAR_DIR/style.css"
 else
-    hyprctl --batch "keyword general:col.active_border rgba(f0f0f0ee) ; keyword general:col.inactive_border rgba(2a2a2aaa)"
     awww clear 1A1A1D
-    # LINK RELATIVI PER TEMA DARK
+    ln -sfn "theme-dark.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-dark.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-dark" "$MAKO_DIR/config"
     ln -sf "style-dark.css" "$WAYBAR_DIR/style.css"
 fi
+
+hyprctl reload
 
 makoctl reload
 
