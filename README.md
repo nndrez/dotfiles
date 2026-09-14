@@ -7,7 +7,7 @@ Setup Hyprland su Arch Linux. Config versionate in Git, deployate con [GNU Stow]
 ```
 dotfiles/
 ├── base/              → fish, ghostty, mpv
-└── hyprland-profile/  → hypr, waybar, rofi, mako, kanshi, …
+└── hyprland-profile/  → hypr, waybar, rofi, mako, …
 ```
 
 Stow crea symlink `~/.config/<app>` → repo. Le app leggono da lì; le modifiche vivono nel repo.
@@ -18,7 +18,7 @@ stow -R hyprland-profile                    # riapplica dopo cambiamenti
 stow -D base                               # rimuove symlink (non i file)
 ```
 
-Dipendenze: `hyprland waybar rofi mako awww ghostty kanshi hyprlock hyprsunset grim slurp swappy wl-clipboard cliphist brightnessctl playerctl`.
+Dipendenze: `hyprland waybar rofi mako awww ghostty hyprlock hyprsunset grim slurp swappy wl-clipboard cliphist brightnessctl playerctl`.
 
 ---
 
@@ -37,7 +37,7 @@ Dipendenze: `hyprland waybar rofi mako awww ghostty kanshi hyprlock hyprsunset g
 
 **Varianti light/dark:** file `*-light` / `*-dark` + symlink in `init-theme.sh` (vedi Temi).
 
-Non committare symlink creati a runtime (`style.css`, `mako/config`, `theme.conf` quando punta al tema attivo).
+Non committare symlink creati a runtime (`style.css`, `mako/config`, `theme.conf` / `theme.lua` quando puntano al tema attivo).
 
 ---
 
@@ -66,7 +66,7 @@ All'avvio Hyprland (`autostart.conf`) partono i servizi e viene eseguito `init-t
 
 ### Hyprland (`hypr/`)
 
-Config modulare: `hyprland.conf` include `monitors`, `env`, `autostart`, `input`, `animations`, `windowrules`, `keybindings`, `theme`, `hyprsunset`, `hyprlock`.
+Config modulare in Lua (Hyprland >= 0.55): `hyprland.lua` include `monitors`, `env`, `autostart`, `input`, `animations`, `windowrules`, `keybindings`, `theme`. I file `*.conf` restano per rollback — vedi `hypr/MIGRATION-LUA.md`.
 
 Dopo modifiche: `hyprctl reload`.
 
@@ -82,7 +82,7 @@ Dopo modifiche: `hyprctl reload`.
 
 | Componente | File |
 |------------|------|
-| Bordi | `theme.conf` → `theme-{light,dark}.conf` |
+| Bordi | `theme.lua` → `theme-{light,dark}.lua` (e `theme.conf` per rollback hyprlang) |
 | Waybar | `style.css` → `style-{light,dark}.css` |
 | Rofi | `current-theme.rasi` → `rofi-{light,dark}.rasi` |
 | Mako | `config` → `config-{light,dark}` |
@@ -115,8 +115,8 @@ Lock screen. Sfondo screenshot + blur. Super+L.
 
 ### Monitor
 
-- **kanshi** — profili laptop / dock
-- **monitors.conf** — fallback generico
+- **kanshi** — profili laptop (`eDP-1`, scale 1.25) e dock (laptop spento, Eizo 1920x1200). Servizio user `kanshi.service`
+- **monitors.lua** / **monitors.conf** — fallback Hyprland (`preferred,auto`); non sostituiscono kanshi
 
 ---
 

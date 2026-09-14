@@ -1,12 +1,12 @@
 profile mobile {
-    output eDP-1 enable scale 1.00
+    output eDP-1 enable scale 1.25
 }
 
 profile docked {
     output eDP-1 disable
-    output "Philips Consumer Electronics Company PHL 325E1 0x00001A8B" {
-        mode 2560x1440@74.97Hz
+    output "Eizo Nanao Corporation EV2430 80368064" {
+        mode 1920x1200@59.95Hz
         position 0,0
-        scale 1.25
+        scale 1.00
     }
 }

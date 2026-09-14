@@ -1,0 +1,14 @@
+[Unit]
+Description=Kanshi dynamic display configuration daemon
+Documentation=man:kanshi(1)
+PartOf=hyprland-session.target
+After=hyprland-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/kanshi
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=hyprland-session.target

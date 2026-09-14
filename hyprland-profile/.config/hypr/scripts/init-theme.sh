@@ -14,11 +14,13 @@ SCRIPT_DIR="$HYPR_DIR/scripts"
 CURRENT_SCHEME=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 if [ "$CURRENT_SCHEME" = "'prefer-light'" ]; then
+    ln -sfn "theme-light.lua" "$HYPR_DIR/theme.lua"
     ln -sfn "theme-light.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-light.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-light" "$MAKO_DIR/config"
     ln -sf "style-light.css" "$WAYBAR_DIR/style.css"
 else
+    ln -sfn "theme-dark.lua" "$HYPR_DIR/theme.lua"
     ln -sfn "theme-dark.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-dark.rasi" "$ROFI_DIR/current-theme.rasi"
     ln -sf "config-dark" "$MAKO_DIR/config"

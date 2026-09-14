@@ -1,0 +1,78 @@
+-- Monitor layout configuration (~/.config/hypr/monitors.lua)
+-- Ref: https://wiki.hypr.land/Configuring/Basics/Monitors/
+
+local LAPTOP_OUTPUT = "eDP-1"
+local DOCK_MONITOR_DESC = "Eizo Nanao Corporation EV2430 80368064"
+local DOCK_CONNECTOR = "HDMI-A-1"
+
+---Identifica se la dock è attualmente connessa
+---@return table|nil
+local function get_connected_dock()
+    local monitors = hl.get_monitors() or {}
+    for _, mon in ipairs(monitors) do
+        if mon.description == DOCK_MONITOR_DESC or mon.name == DOCK_CONNECTOR then
+            return mon
+        end
+    end
+    return nil
+end
+
+local function apply_display_profile()
+    local dock = get_connected_dock()
+
+    if dock then
+        -- 1. Disattiva esplicitamente lo schermo del laptop
+        hl.monitor({
+            output = LAPTOP_OUTPUT,
+            mode = "disable",
+        })
+
+        -- 2. Configura il monitor della dock come schermo primario a 0x0
+        hl.monitor({
+            output = dock.name or DOCK_CONNECTOR,
+            mode = "1920x1200@59.95",
+            position = "0x0",
+            scale = 1.0,
+        })
+    else
+        -- 3. Ripristina lo schermo del laptop quando scollegato dalla dock
+        hl.monitor({
+            output = LAPTOP_OUTPUT,
+            mode = "1920x1080@60.05",
+            position = "0x0",
+            scale = 1.5,
+        })
+    end
+end
+
+local profile_timer = nil
+
+local function schedule_display_profile()
+    if profile_timer then
+	if type(profile_timer) == "function" then
+            profile_timer()
+        end
+        profile_timer = nil
+    end
+
+    profile_timer = hl.timer(function()
+        apply_display_profile()
+    end, { timeout = 300, type = "oneshot" })
+end
+
+-- Fallback generale per monitor non mappati
+hl.monitor({
+    output = "",
+    mode = "preferred",
+    position = "auto",
+    scale = 1,
+})
+
+-- Event Listeners
+hl.on("hyprland.start", schedule_display_profile)
+hl.on("config.reloaded", schedule_display_profile)
+hl.on("monitor.added", schedule_display_profile)
+hl.on("monitor.removed", schedule_display_profile)
+
+-- Esecuzione iniziale al caricamento
+schedule_display_profile()
