@@ -1,58 +1,39 @@
-# Migrazione Hyprland → Lua
+# Configurazione Hyprland (Lua)
 
-Config attiva: `hyprland.lua` + moduli `*.lua` (Hyprland >= 0.55).
+Configurazione modulare attiva basata sull'interprete nativo Lua di Hyprland (>= 0.55 / 0.56).
 
-I file `*.conf` originali restano nel repo per rollback rapido.
+I file legacy `*.conf` sono stati decommissionati.
 
-## Attivazione
+## Ricarica della configurazione
 
-Dopo `stow -R hyprland-profile`, riavvia Hyprland oppure:
+Dopo modifiche ai moduli Lua o dopo `stow -R hyprland-profile`:
 
 ```bash
 hyprctl reload
 ```
 
-Se esiste `hyprland.lua`, Hyprland **non** carica `hyprland.conf`.
+## Struttura Modulare
 
-## Rollback a hyprlang
+| Modulo Lua | Contenuto |
+|---|---|
+| `hyprland.lua` | Entry point, layout general e decoration |
+| `monitors.lua` | Fallback Hyprland (`monitor=,preferred,auto`); layout reale = kanshi |
+| `env.lua` | Variabili d'ambiente e toolkit backend |
+| `autostart.lua` | Avvio e shutdown sessione systemd, agenti e clipboard |
+| `input.lua` | Layout tastiera, touchpad, gesture |
+| `animations.lua` | Curve bezier e animazioni finestre/workspace |
+| `windowrules.lua` | Regole finestre (XWayland, swappy, ecc.) |
+| `keybindings.lua` | Scorciatoie da tastiera e controlli multimediali |
+| `theme-{light,dark}.lua` | Palette colori bordi attivi/inattivi |
+| `theme.lua` | Symlink runtime gestito da `init-theme.sh` |
 
-```bash
-mv ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua.bak
-hyprctl reload
-```
+## Kanshi & Display Management
 
-Per tornare a Lua, ripristina il file e ricarica.
+I profili dinamici laptop/dock sono gestiti da `~/.config/kanshi/config`. `monitors.lua` funge solo da fallback generale (`preferred,auto`).
 
-## Struttura
+Il daemon è supervisionato da `kanshi.service` (`WantedBy=hyprland-session.target`).
 
-| Lua | Conf legacy | Contenuto |
-|-----|-------------|-----------|
-| `hyprland.lua` | `hyprland.conf` | Entry point + general/decoration |
-| `monitors.lua` | `monitors.conf` | Fallback Hyprland (`monitor=,preferred,auto`); layout reale = kanshi |
-| `env.lua` | `env.conf` | Variabili ambiente |
-| `autostart.lua` | `autostart.conf` | Avvio servizi |
-| `input.lua` | `input.conf` | Input, gesture, device |
-| `animations.lua` | `animations.conf` | Curve e animazioni |
-| `windowrules.lua` | `windowrules.conf` | Window rules |
-| `keybindings.lua` | `keybindings.conf` | Keybind |
-| `theme-{light,dark}.lua` | `theme-{light,dark}.conf` | Colori bordi |
-| `theme.lua` | `theme.conf` | Symlink runtime (init-theme.sh) |
+## Note sui tool Hypr*
 
-## Kanshi
-
-I profili laptop/dock restano in `~/.config/kanshi/config`. `monitors.lua` è
-solo il fallback Hyprland (`preferred` / `auto`) per output non coperti.
-
-Il daemon è `kanshi.service` (`WantedBy=hyprland-session.target`), avviato da
-`autostart.lua` via `systemctl --user start hyprland-session.target`.
-
-Profili:
-
-- **mobile** — `eDP-1` attivo, scale 1.25
-- **docked** — `eDP-1` disabilitato, Eizo EV2430 1920x1200@59.95
-
-## Note
-
-- `hyprlock.conf` e `hyprsunset.conf` restano in hyprlang (tool Hypr* non migrati).
-- `init-theme.sh` crea il symlink `theme.lua` → `theme-{light,dark}.lua`.
-- Test consigliato: collegare/scollegare il dock e verificare il passaggio laptop ↔ esterno.
+- `hyprlock.conf` e `hyprsunset.conf` utilizzano la sintassi Hyprlang propria dei rispettivi applicativi standalone.
+- Il controllo di `hyprsunset` avviene via IPC nativo (`hyprctl hyprsunset identity|reset`).

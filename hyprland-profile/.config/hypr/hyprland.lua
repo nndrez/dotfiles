@@ -1,9 +1,5 @@
 -- Hyprland Lua configuration (Hyprland >= 0.55)
---
--- Rollback to hyprlang:
---   mv ~/.config/hypr/hyprland.lua ~/.config/hypr/hyprland.lua.bak
---   hyprctl reload
--- Hyprland loads hyprland.conf only when hyprland.lua is absent.
+-- Ref: https://wiki.hypr.land/Configuring/Start/
 
 require("monitors")
 require("env")

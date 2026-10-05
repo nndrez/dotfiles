@@ -7,7 +7,7 @@ Setup Hyprland su Arch Linux. Config versionate in Git, deployate con [GNU Stow]
 ```
 dotfiles/
 ├── base/              → fish, ghostty, mpv
-└── hyprland-profile/  → hypr, waybar, rofi, mako, …
+└── hyprland-profile/  → hypr (Lua), waybar, rofi, mako, systemd services, …
 ```
 
 Stow crea symlink `~/.config/<app>` → repo. Le app leggono da lì; le modifiche vivono nel repo.
@@ -35,9 +35,7 @@ Dipendenze: `hyprland waybar rofi mako awww ghostty hyprlock hyprsunset grim slu
 
 **Nuova app:** crea `pacchetto/.config/foo/`, poi `stow <pacchetto>`.
 
-**Varianti light/dark:** file `*-light` / `*-dark` + symlink in `init-theme.sh` (vedi Temi).
-
-Non committare symlink creati a runtime (`style.css`, `mako/config`, `theme.conf` / `theme.lua` quando puntano al tema attivo).
+**Varianti light/dark:** file `*-light` / `*-dark` + symlink in `init-theme.sh` (vedi Temi). I symlink runtime e lo stato locale sono esclusi tramite `.gitignore`.
 
 ---
 
@@ -58,7 +56,14 @@ Non committare symlink creati a runtime (`style.css`, `mako/config`, `theme.conf
          Washi (light)               Sumi (dark)
 ```
 
-All'avvio Hyprland (`autostart.conf`) partono i servizi e viene eseguito `init-theme.sh`.
+All'avvio Hyprland (`autostart.lua`), parte `hyprland-session.target` che supervisiona via systemd:
+- `waybar.service`
+- `mako.service`
+- `kanshi.service`
+- `awww.service`
+- `hyprsunset.service`
+
+E viene eseguito `init-theme.sh`.
 
 ---
 
@@ -66,7 +71,7 @@ All'avvio Hyprland (`autostart.conf`) partono i servizi e viene eseguito `init-t
 
 ### Hyprland (`hypr/`)
 
-Config modulare in Lua (Hyprland >= 0.55): `hyprland.lua` include `monitors`, `env`, `autostart`, `input`, `animations`, `windowrules`, `keybindings`, `theme`. I file `*.conf` restano per rollback — vedi `hypr/MIGRATION-LUA.md`.
+Config nativa modulare in Lua (Hyprland >= 0.55 / 0.56): `hyprland.lua` include `monitors`, `env`, `autostart`, `input`, `animations`, `windowrules`, `keybindings`, `theme`.
 
 Dopo modifiche: `hyprctl reload`.
 
@@ -82,11 +87,11 @@ Dopo modifiche: `hyprctl reload`.
 
 | Componente | File |
 |------------|------|
-| Bordi | `theme.lua` → `theme-{light,dark}.lua` (e `theme.conf` per rollback hyprlang) |
+| Bordi | `theme.lua` → `theme-{light,dark}.lua` |
 | Waybar | `style.css` → `style-{light,dark}.css` |
 | Rofi | `current-theme.rasi` → `rofi-{light,dark}.rasi` |
 | Mako | `config` → `config-{light,dark}` |
-| Ghostty | automatico via `gsettings` |
+| Ghostty | automatico via `gsettings` (`theme = light:washi-light,dark:sumi-dark`) |
 | Wallpaper | cartella `light/` o `dark/` |
 
 ### Wallpaper (`scripts/wallpaper.sh`)
@@ -100,23 +105,23 @@ Dopo modifiche: `hyprctl reload`.
 
 ### hyprsunset (`hyprsunset.conf`)
 
-Filtro luce blu per orario. Indipendente dal tema UI.
+Filtro luce blu gestito via IPC nativo (`hyprctl hyprsunset`). Indipendente dal tema UI.
 
 | Orario | Profilo |
 |--------|---------|
 | 07:00 | 5500K |
 | 20:00 | 4300K, gamma 0.9 |
 
-Script: `hypr/scripts/hyprsunset.sh` — Super+Shift+N spegne, Super+Ctrl+N riavvia.
+Script: `hypr/scripts/hyprsunset.sh` — Super+Shift+N disattiva filtro (identity), Super+Ctrl+N ripristina profilo (reset).
 
 ### hyprlock (`hypr/hyprlock.conf`)
 
-Lock screen. Sfondo screenshot + blur. Super+L.
+Lock screen con blur e supporto PAM. Super+L.
 
 ### Monitor
 
 - **kanshi** — profili laptop (`eDP-1`, scale 1.25) e dock (laptop spento, Eizo 1920x1200). Servizio user `kanshi.service`
-- **monitors.lua** / **monitors.conf** — fallback Hyprland (`preferred,auto`); non sostituiscono kanshi
+- **monitors.lua** — fallback Hyprland (`preferred,auto`); non sostituisce kanshi
 
 ---
 
@@ -124,20 +129,25 @@ Lock screen. Sfondo screenshot + blur. Super+L.
 
 | Scorciatoia | Azione |
 |-------------|--------|
-| `Super+Q` | Terminale |
-| `Super+R` | Launcher |
-| `Super+T` | Tema light/dark |
-| `Super+L` | Blocco schermo |
+| `Super+Q` | Terminale (Ghostty) |
+| `Super+R` | Launcher (Rofi drun) |
+| `Super+T` | Toggle tema light/dark |
+| `Super+L` | Blocco schermo (Hyprlock) |
+| `Super+C` | Chiudi finestra attiva |
+| `Super+F` | Toggle finestra floating |
+| `Super+P` | Toggle pseudotile |
+| `Super+J` | Toggle split layout |
 | `Super+Shift+W` | Wallpaper successivo |
 | `Super+Shift+N` | Disattiva filtro notturno |
 | `Super+Ctrl+N` | Ripristina filtro notturno |
-| `Super+Shift+S` | Screenshot area |
+| `Super+Shift+S` | Screenshot area (Grim + Slurp + Swappy) |
 | `Super+Shift+Print` | Screenshot schermo intero |
-| `Super+V` | Appunti |
-| `Super+C` | Chiudi finestra |
-| `Super+F` | Float |
-| `Super+1–0` | Workspace |
-| `Super+Shift+1–0` | Sposta finestra |
+| `Super+V` | Cronologia appunti (Cliphist + Rofi) |
+| `Super+Shift+V` | Cancella cronologia appunti |
+| `Super+1–0` | Vai al workspace 1–10 |
+| `Super+Shift+1–0` | Sposta finestra al workspace 1–10 |
+| `XF86Audio*` | Volume su/giù (ripetizione continua) e Mute |
+| `XF86MonBrightness*` | Luminosità su/giù (ripetizione continua) |
 
 ---
 
@@ -147,4 +157,4 @@ Lock screen. Sfondo screenshot + blur. Super+L.
 2. Applica: `hyprctl reload`, `pkill -SIGUSR2 waybar`, riavvio servizio, ecc.
 3. `git commit` quando stabile
 
-Nuova macchina: `git clone` → `stow base hyprland-profile` → installa dipendenze → login.
+Nuova macchina: `git clone` → `stow base hyprland-profile` → installa dipendenze → `systemctl --user enable kanshi waybar mako awww hyprsunset` → login.

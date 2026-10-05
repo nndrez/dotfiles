@@ -58,12 +58,43 @@ window#waybar {
     color: @bg; 
     background-color: @fg; 
     border-radius: 0px; 
-    padding: 0 8px;
+    padding: 0 8px; 
     margin: 4px 4px; 
     font-weight: bold;
 }
 
 #window {
     color: @fg; 
-    font-weight: bold;
+    font-weight: bold; 
+}
+
+menu,
+#custom-power menu {
+    background-color: @bg;
+    color: @fg;
+    border: 1px solid @border-col;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+menu menuitem,
+#custom-power menu menuitem {
+    background-color: transparent;
+    color: @fg;
+    padding: 6px 12px;
+    border-radius: 2px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+menu menuitem:hover,
+#custom-power menu menuitem:hover {
+    background-color: @border-col;
+    color: @fg;
+}
+
+menu separator,
+#custom-power menu separator {
+    background-color: @border-col;
+    min-height: 1px;
+    margin: 4px 2px;
 }

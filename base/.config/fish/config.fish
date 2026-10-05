@@ -1,17 +1,11 @@
+# Add local binaries to PATH (globally for this session, avoiding universal variable pollution)
+fish_add_path -g ~/.local/bin
+
 if status is-interactive
-    fnm env --use-on-cd --shell fish | source
+    if type -q fnm
+        fnm env --use-on-cd --shell fish | source
+    end
 
     abbr -a o xdg-open
     abbr -a copy wl-copy
-
-    function op
-        set file (fzf)
-        if test -n "$file"
-            nohup xdg-open "$file" >/dev/null 2>&1 &
-        end
-    end
-end
-
-function fish_greeting
-    fastfetch -l none
 end

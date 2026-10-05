@@ -1,3 +1,8 @@
+@define-color bg #121212;
+@define-color fg #f0f0f0;
+@define-color fg-dim #666666;
+@define-color border-col #2a2a2a;
+
 * {
     font-family: "JetBrains Mono", monospace;
     font-size: 14px;
@@ -5,60 +10,91 @@
 }
 
 window#waybar {
-    background-color: #121212; 
-    color: #f0f0f0; 
-    border-bottom: 1px solid #2a2a2a; 
+    background-color: @bg;
+    color: @fg;
+    border-bottom: 1px solid @border-col;
 }
 
-#clock, #battery, #cpu, #memory, #disk, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media {
+#clock, #battery, #cpu, #memory, #disk, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media, #power-profiles-daemon {
     padding: 0 10px;
-    background-color: transparent; 
-    color: #f0f0f0; 
+    background-color: transparent;
+    color: @fg;
 }
 
 #workspaces button {
     padding: 0 8px;
     background-color: transparent;
-    color: #666666; 
+    color: @fg-dim;
     border: none;
     box-shadow: none;
     transition: color 0.2s ease;
 }
 
 #workspaces button:hover {
-    color: #aaaaaa; 
+    color: #aaaaaa;
     background: transparent;
 }
 
 #workspaces button.active {
-    color: #ffffff; 
-    font-weight: bold; 
+    color: @fg;
+    font-weight: bold;
 }
 
 #pulseaudio.muted {
-    color: #666666; 
-    text-decoration: line-through; 
+    color: @fg-dim;
+    text-decoration: line-through;
 }
 
 #network.disconnected {
-    color: #666666; 
+    color: @fg-dim;
     font-style: italic;
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff; 
+    color: @fg;
 }
 
 #battery.critical:not(.charging) {
-    color: #121212; 
-    background-color: #f0f0f0; 
-    border-radius: 0px; 
+    color: @bg;
+    background-color: @fg;
+    border-radius: 0px;
     padding: 0 8px;
-    margin: 4px 4px; 
+    margin: 4px 4px;
     font-weight: bold;
 }
 
 #window {
-    color: #ffffff; 
+    color: @fg;
     font-weight: bold;
+}
+
+menu,
+#custom-power menu {
+    background-color: @bg;
+    color: @fg;
+    border: 1px solid @border-col;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+menu menuitem,
+#custom-power menu menuitem {
+    background-color: transparent;
+    color: @fg;
+    padding: 6px 12px;
+    border-radius: 2px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+menu menuitem:hover,
+#custom-power menu menuitem:hover {
+    background-color: @border-col;
+    color: @fg;
+}
+
+menu separator,
+#custom-power menu separator {
+    background-color: @border-col;
+    min-height: 1px;
+    margin: 4px 2px;
 }

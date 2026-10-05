@@ -3,6 +3,7 @@ text-color=#2C2826
 border-color=#E0DCD3
 border-size=2
 border-radius=0
+margin=10,10,10,10
 font=JetBrains Mono 11
 max-history=5
 sort=-time

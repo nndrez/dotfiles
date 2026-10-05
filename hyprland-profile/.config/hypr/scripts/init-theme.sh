@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if ! pgrep -x "awww-daemon" > /dev/null; then
-    awww-daemon &
-    sleep 0.5
+if ! pgrep -x "awww-daemon" > /dev/null 2>&1; then
+    awww-daemon > /dev/null 2>&1 &
+    sleep 0.3
 fi
 
 HYPR_DIR="$HOME/.config/hypr"
@@ -15,24 +15,22 @@ CURRENT_SCHEME=$(gsettings get org.gnome.desktop.interface color-scheme)
 
 if [ "$CURRENT_SCHEME" = "'prefer-light'" ]; then
     ln -sfn "theme-light.lua" "$HYPR_DIR/theme.lua"
-    ln -sfn "theme-light.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-light.rasi" "$ROFI_DIR/current-theme.rasi"
-    ln -sf "config-light" "$MAKO_DIR/config"
-    ln -sf "style-light.css" "$WAYBAR_DIR/style.css"
+    ln -sfn "config-light" "$MAKO_DIR/config"
+    ln -sfn "style-light.css" "$WAYBAR_DIR/style.css"
 else
     ln -sfn "theme-dark.lua" "$HYPR_DIR/theme.lua"
-    ln -sfn "theme-dark.conf" "$HYPR_DIR/theme.conf"
     ln -sfn "rofi-dark.rasi" "$ROFI_DIR/current-theme.rasi"
-    ln -sf "config-dark" "$MAKO_DIR/config"
-    ln -sf "style-dark.css" "$WAYBAR_DIR/style.css"
+    ln -sfn "config-dark" "$MAKO_DIR/config"
+    ln -sfn "style-dark.css" "$WAYBAR_DIR/style.css"
 fi
 
-hyprctl reload
+hyprctl reload > /dev/null 2>&1
 
 "$SCRIPT_DIR/wallpaper.sh" apply
 
-makoctl reload
+makoctl reload > /dev/null 2>&1
 
-if pgrep -x waybar > /dev/null; then
+if pgrep -x waybar > /dev/null 2>&1; then
     pkill -SIGUSR2 waybar
 fi
