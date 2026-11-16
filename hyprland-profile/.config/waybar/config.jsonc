@@ -64,7 +64,7 @@
         "format-disconnected": "NET DOWN",
         "tooltip-format": "{essid} via {gwaddr}",
         "format-alt": "IP {ipaddr}",
-        "on-click-right": "ghostty --class=network-popup -e nmtui"
+        "on-click-right": "ghostty --class=ghostty.network-popup -e nmtui"
     },
 
     "bluetooth": {

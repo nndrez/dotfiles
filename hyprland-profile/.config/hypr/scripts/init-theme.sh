@@ -1,8 +1,11 @@
 #!/bin/bash
 
-if ! pgrep -x "awww-daemon" > /dev/null 2>&1; then
-    awww-daemon > /dev/null 2>&1 &
-    sleep 0.3
+if ! awww query > /dev/null 2>&1; then
+    systemctl --user start awww.service > /dev/null 2>&1
+    for _ in $(seq 1 30); do
+        awww query > /dev/null 2>&1 && break
+        sleep 0.1
+    done
 fi
 
 HYPR_DIR="$HOME/.config/hypr"

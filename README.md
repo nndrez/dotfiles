@@ -59,7 +59,6 @@ Dipendenze: `hyprland waybar rofi mako awww ghostty hyprlock hyprsunset grim slu
 All'avvio Hyprland (`autostart.lua`), parte `hyprland-session.target` che supervisiona via systemd:
 - `waybar.service`
 - `mako.service`
-- `kanshi.service`
 - `awww.service`
 - `hyprsunset.service`
 
@@ -120,8 +119,7 @@ Lock screen con blur e supporto PAM. Super+L.
 
 ### Monitor
 
-- **kanshi** — profili laptop (`eDP-1`, scale 1.25) e dock (laptop spento, Eizo 1920x1200). Servizio user `kanshi.service`
-- **monitors.lua** — fallback Hyprland (`preferred,auto`); non sostituisce kanshi
+- **monitors.lua** — gestione nativa in Hyprland Lua: profili laptop (`eDP-1`, scale 1) e dock (laptop spento, Eizo 1920x1200) tramite `monitor.added` / `monitor.removed`.
 
 ---
 
@@ -157,4 +155,4 @@ Lock screen con blur e supporto PAM. Super+L.
 2. Applica: `hyprctl reload`, `pkill -SIGUSR2 waybar`, riavvio servizio, ecc.
 3. `git commit` quando stabile
 
-Nuova macchina: `git clone` → `stow base hyprland-profile` → installa dipendenze → `systemctl --user enable kanshi waybar mako awww hyprsunset` → login.
+Nuova macchina: `git clone` → `stow base hyprland-profile` → installa dipendenze → `systemctl --user enable waybar mako awww hyprsunset hypridle` → login.

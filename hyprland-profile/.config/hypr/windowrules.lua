@@ -34,3 +34,11 @@ hl.window_rule({
     center = true,
     size = { "80%", "80%" },
 })
+
+hl.window_rule({
+    name = "network-popup",
+    match = { class = "^ghostty\\.network-popup$" },
+    float = true,
+    center = true,
+    size = { "60%", "70%" },
+})

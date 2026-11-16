@@ -2,6 +2,7 @@
 @define-color fg #2C2826;
 @define-color fg-dim #8B8682;
 @define-color border-col #E0DCD3;
+@define-color accent #A63429;
 
 * {
     font-family: "JetBrains Mono", monospace;
@@ -12,7 +13,8 @@
 window#waybar {
     background-color: @bg;
     color: @fg;
-    border-bottom: 1px solid @border-col;
+    border: none;
+    border-radius: 0px;
 }
 
 #clock, #battery, #cpu, #memory, #disk, #backlight, #network, #pulseaudio, #tray, #custom-power, #mpd, #custom-media, #power-profiles-daemon {
@@ -26,8 +28,10 @@ window#waybar {
     background-color: transparent;
     color: @fg-dim;
     border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0px;
     box-shadow: none;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 #workspaces button:hover {
@@ -38,6 +42,7 @@ window#waybar {
 #workspaces button.active {
     color: @fg; 
     font-weight: bold; 
+    border-bottom: 2px solid @accent;
 }
 
 #pulseaudio.muted {
@@ -56,8 +61,8 @@ window#waybar {
 
 #battery.critical:not(.charging) {
     color: @bg; 
-    background-color: @fg; 
-    border-radius: 0px; 
+    background-color: @accent; 
+    border-radius: 2px; 
     padding: 0 8px; 
     margin: 4px 4px; 
     font-weight: bold;

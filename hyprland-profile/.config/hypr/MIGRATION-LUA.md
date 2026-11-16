@@ -17,7 +17,7 @@ hyprctl reload
 | Modulo Lua | Contenuto |
 |---|---|
 | `hyprland.lua` | Entry point, layout general e decoration |
-| `monitors.lua` | Fallback Hyprland (`monitor=,preferred,auto`); layout reale = kanshi |
+| `monitors.lua` | Configurazione e profili dinamici monitor in Lua nativo |
 | `env.lua` | Variabili d'ambiente e toolkit backend |
 | `autostart.lua` | Avvio e shutdown sessione systemd, agenti e clipboard |
 | `input.lua` | Layout tastiera, touchpad, gesture |
@@ -27,11 +27,9 @@ hyprctl reload
 | `theme-{light,dark}.lua` | Palette colori bordi attivi/inattivi |
 | `theme.lua` | Symlink runtime gestito da `init-theme.sh` |
 
-## Kanshi & Display Management
+## Display Management
 
-I profili dinamici laptop/dock sono gestiti da `~/.config/kanshi/config`. `monitors.lua` funge solo da fallback generale (`preferred,auto`).
-
-Il daemon è supervisionato da `kanshi.service` (`WantedBy=hyprland-session.target`).
+I profili dinamici laptop/dock (`eDP-1` / Eizo esterno) sono gestiti nativamente in `~/.config/hypr/monitors.lua` tramite `hl.monitor()` e gli eventi `monitor.added` / `monitor.removed`.
 
 ## Note sui tool Hypr*
 

@@ -23,17 +23,17 @@ hl.config({
         rounding = 6,
         rounding_power = 2,
         active_opacity = 1.0,
-        inactive_opacity = 0.95,
+        inactive_opacity = 0.94,
 
         shadow = {
-            enabled = false,
-            range = 4,
-            render_power = 3,
-            color = "rgba(00000044)",
+            enabled = true,
+            range = 10,
+            render_power = 4,
+            color = "rgba(00000028)",
         },
 
         blur = {
-            enabled = false,
+            enabled = true,
             size = 3,
             passes = 2,
             new_optimizations = true,
